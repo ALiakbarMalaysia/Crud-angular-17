@@ -1,0 +1,26 @@
+<ng-container *ngTemplateOutlet="template1"></ng-container>
+
+<div class="input-group">
+    <hr>
+    <span class="textarea" role="textbox" #valueOfErea name="valueOfErea" contenteditable></span>
+    <!-- <i   class="icon-add primary add"></i> -->
+    <i (click)="getvalueOfErea()" class="material-symbols-outlined add">
+        add_circle
+    </i>
+
+</div>
+<ng-template #template1>
+    <div class="description" *ngFor="let item of storeValueInput; let i = index; ">
+        <span>
+            {{storeValueInput[i]}}
+        </span>
+        <div *ngIf="isShowAction" class="actions">
+            <i (click)="deleteDesc()" class="material-symbols-outlined">
+                delete
+            </i>
+            <i (click)="editDesc(item,i)" class="material-symbols-outlined">
+                edit
+            </i>
+        </div>
+    </div>
+</ng-template>
