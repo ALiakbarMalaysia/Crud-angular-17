@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-crud',
@@ -12,7 +12,16 @@ export class CrudComponent {
   storeValueInput: string[] = [];
   isShowAction = false;
   updateValue!: string;
-  getIndex!: number
+  getIndex!: number;
+  isShowAdd = true;
+  editValue!: string;
+  indexValue!: number
+
+  @Input() items: string[] = [];
+  @Output() newItemEvent = new EventEmitter<any>();
+  @Output() editItemEvent = new EventEmitter<any>();
+  @Output() updateItemEvent = new EventEmitter<any>();
+
 
   constructor() { }
 
@@ -20,7 +29,7 @@ export class CrudComponent {
   }
 
   getvalueOfErea() {
-    if (!this.updateValue) {
+    if (this.updateValue) {
       this.storeValueInput.push(this.valueOfErea.nativeElement.innerHTML);
       this.valueOfErea.nativeElement.innerHTML = '';
       this.isShowAction = true;
@@ -30,15 +39,31 @@ export class CrudComponent {
     }
   }
 
-  deleteDesc() {
-    const indexToDelete = 0;
-    this.storeValueInput.splice(indexToDelete, 1);
+  deleteDesc(index:number) {
+    this.items.splice(index, 1);
   }
 
-  editDesc(value: string, index: number) {
-    this.getIndex = index;
-    this.updateValue = value;
-    this.valueOfErea.nativeElement.innerHTML = this.updateValue
+  addNewItem() {
+    this.newItemEvent.emit(this.valueOfErea.nativeElement.innerHTML);
+    this.valueOfErea.nativeElement.innerHTML = '';
+    this.isShowAction = true;
+  }
+
+  editItem(value: string, index: number) {
+    this.valueOfErea.nativeElement.innerHTML = value;
+    this.updateValue = this.valueOfErea.nativeElement.innerHTML;
+    this.isShowAdd = false
+    this.editValue = value;
+    this.indexValue = index
+  }
+
+  updateItem() {
+    let index = this.indexValue;
+    let value = this.valueOfErea.nativeElement.innerHTML;
+    this.items[index] = value
+    this.items.map((value, index) => index === index ? value : value);
+    this.valueOfErea.nativeElement.innerHTML = ''
+    this.isShowAdd = true
   }
 
 }

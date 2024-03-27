@@ -1,26 +1,21 @@
 <ng-container *ngTemplateOutlet="template1"></ng-container>
-
 <div class="input-group">
-    <hr>
-    <span class="textarea" role="textbox" #valueOfErea name="valueOfErea" contenteditable></span>
-    <!-- <i   class="icon-add primary add"></i> -->
-    <i (click)="getvalueOfErea()" class="material-symbols-outlined add">
-        add_circle
-    </i>
-
+  <span class="textarea" role="textbox" #valueOfErea name="valueOfErea" contenteditable></span>
+  <i *ngIf="isShowAdd" (click)="addNewItem()" class="icon-add primary add_icon"></i>
+  <i *ngIf="!isShowAdd" (click)="updateItem()" class="icon-done update_icon"></i>
 </div>
+
+<!-- show content -->
 <ng-template #template1>
-    <div class="description" *ngFor="let item of storeValueInput; let i = index; ">
-        <span>
-            {{storeValueInput[i]}}
-        </span>
-        <div *ngIf="isShowAction" class="actions">
-            <i (click)="deleteDesc()" class="material-symbols-outlined">
-                delete
-            </i>
-            <i (click)="editDesc(item,i)" class="material-symbols-outlined">
-                edit
-            </i>
-        </div>
+  <div class="description" *ngFor="let item of items; let i =index">
+    <span>
+      {{item}}
+    </span>
+    <div class="actions">
+      <i (click)="deleteDesc(i)" class="icon-delete primary delete_icon"></i>
+
+      <span class="line"></span>
+      <i (click)="editItem(item,i)" class="icon-edit primary edit_icon"></i>
     </div>
+  </div>
 </ng-template>
